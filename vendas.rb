@@ -188,7 +188,11 @@ class Vendas
 end
 
 # Exemplo de uso:
-vendas = Vendas.new("estoque.txt")
-vendas.iniciar
+#vendas = Vendas.new("estoque.txt")
+#vendas.iniciar
 #vendas.historico_vendas
-vendas.ver_historico
+#vendas.ver_historico
+
+nome_arquivo = 'vendas.txt'
+vendas = Vendas.new(nome_arquivo)
+vendas.exibir_relatorio
