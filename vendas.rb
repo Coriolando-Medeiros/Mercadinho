@@ -74,7 +74,7 @@ class Vendas
     opcao = gets.chomp.to_i
 
     if opcao == '1'
-      x_dias_antes = hoje - 1
+      @x_dias_antes = hoje - 1
       @dados.each do |linha|
         data_str, evento = linha.split(';')
         data_evento = date.parse(data_str)
@@ -89,7 +89,13 @@ class Vendas
 
   end
 
-  
+  def exibir_relatorio
+    relatorio = gerar_relatorio
+    puts "Relatório de #{x_dias_antes} dias"
+    relatorio.each do |item|
+      puts item
+    end
+  end
 
   private
 
