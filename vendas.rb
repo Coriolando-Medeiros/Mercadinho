@@ -1,3 +1,6 @@
+require 'date'
+
+
 class Vendas
   def initialize(arquivo_estoque)
     @arquivo_estoque = arquivo_estoque
@@ -48,9 +51,45 @@ class Vendas
     end
   end
 
-  def ver_historico
-    
+  def preparar_relatorio(nome_arquivo)
+    dados = []
+    File.open(nome_arquivo, "r") do |arquivo|
+      arquivo.each_line do |linha|
+        dados << linha.chomp
+      end
+    end
+    dados
   end
+
+
+  def gerar_relatorio(dados)
+    relatorio = []
+    hoje = Date.today
+    puts "1 - 1 dia"
+    puts "2 - 7 dias"
+    puts "3 - 30 dias"
+    puts "4 - 3 meses"
+    puts "5 - 6 meses"
+    puts "0 - Sair"
+    opcao = gets.chomp.to_i
+
+    if opcao == '1'
+      x_dias_antes = hoje - 1
+      @dados.each do |linha|
+        data_str, evento = linha.split(';')
+        data_evento = date.parse(data_str)
+
+        if data_evento >= 1 && data_evento <= hoje
+          relatorio << "#{data_evento}: #{evento}"
+        end
+      end
+
+      relatorio
+    end
+
+  end
+
+  
 
   private
 
@@ -145,4 +184,5 @@ end
 # Exemplo de uso:
 vendas = Vendas.new("estoque.txt")
 vendas.iniciar
-vendas.historico_vendas
+#vendas.historico_vendas
+vendas.ver_historico
