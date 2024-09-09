@@ -13,7 +13,7 @@ class Login
 
   def autenticacao
     if File.exist?("login.txt") && !File.zero?("login.txt")
-      linhas = File.readlines("login.txtx").map(&:chomp)
+      linhas = File.readlines("login.txt").map(&:chomp)
       autenticado = linhas.any? do |linha|
         username, password = linha.split(':')
         @usuario == username && @senha == password
@@ -21,10 +21,20 @@ class Login
 
       if autenticado
         puts "login bem sucedido!"
-        Puts "Bem-vindo #{@usuario.capitalize}"
+        puts "Bem-vindo #{@usuario.capitalize}"
+        if @usuario == "administrador"
+          #puts "Em implementação"
+          require_relative 'admin'
+          admin = Administrador.new
+          admin.ver_relatorios
+
+        else
+          require_relative 'vendas'
+          vendas = Vendas.new
+          vendas.iniciar
+        end
       else
         puts "Usuário e/ou senha inválidos!"
-        login
       end
     else
       puts "Banco de dados inexistente!"
