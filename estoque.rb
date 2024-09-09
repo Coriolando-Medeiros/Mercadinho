@@ -31,10 +31,18 @@ class Estoque
     puts "Atualizado estoque #{data} #{hora}"
   end
 
-  def saidas
-    
+  def ver_estoque
+    if File.exist?("estoque.txt") && !File.zero?("estoque.txt")
+      File.open("estoque.txt", "r") do |arquivo|
+        arquivo.each_line do |linha|
+          puts linha
+        end
+      end
+    end
   end
+    
 end
 
 estoque = Estoque.new
-estoque.adicionar
+#estoque.adicionar
+estoque.ver_estoque
