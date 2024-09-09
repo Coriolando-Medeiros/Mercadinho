@@ -39,9 +39,37 @@ class Produto
 
   def remover_produto
     puts "Remover produto"
-    if @produtos.empty?
-      puts "Estoque inexistente!"
-      puts "Adicionar novo produto?"
+    if File.exist?("estoque.txt") && !File.zero?("estoque.txt")
+      produtos = File.readlines("estoque.txt")
+
+      produtos.each_with_index do |produto, indice|
+        puts "Produto: #{indice + 1}: #{produto}"
+      end
+      puts "Qual produto deseja excluir?"
+      puts "Digite o número | Enter - Sair"
+      escolha = gets.chomp.to_i - 1
+
+      if escolha >= 0 && escolha < produtos.size
+        puts "Deseja mesmo excluir? É irreversivel!"
+        puts "1 - Sim | Enter - Sair"
+        opcao_deleta = gets.chomp
+        if opcao_deleta == '1'
+          produtos.delete_at(escolha)
+
+          File.open("estoque.txt", "w") do |arquivo|
+            arquivo.puts(produtos)
+          end
+        else
+          puts "Saindo..."
+          return
+        end
+        puts "Produto removido!"
+      else
+        puts "escolha inválida!"
+      end
+    else
+      puts "estoque vazio!"
+      puts "Adicionar item?"
       puts "1 - Sim | Enter - Sair"
       opcao = gets.chomp
       if opcao == '1'
@@ -50,38 +78,28 @@ class Produto
         puts "Saindo..."
         return
       end
-    else
-      @produtos.each_with_index do |item, indice|
-        puts "#{indice + 1}° item | Nome: #{item[:nome]} | Preço: #{item[:preco]} | Quantidade: #{item[:quantidade]} | Categoria: #{item[:produto_categoria]} |Código: #{item[:codigo]}"
-      end
-      puts "Qual produto deseja remover?"
-      puts "Digite o número do índice"
-      escolha = gets.chomp.to_i - 1
-
-      
-
-      if escolha >= 0 && escolha < @produtos.size
-        puts "Deseja mesmo remover?"
-        puts "1 - Sim | Enter - Sair"
-        opcao_remover = gets.chomp
-
-        if opcao_remover == '1'
-          @produtos.delete_at(escolha)
-          puts "Produto removido!"
-        else
-          puts "Saindo..."
-          return
-        end
-      else
-        puts "Escolha inválida!"
-      end
     end
   end
 
   def listar_produtos
     puts "Lista de produtos"
-    @produtos.each_with_index do |item, indice|
-      puts "#{indice + 1}º item | Nome: #{item[:nome]} | Preço: #{item[:preco]} | Quantidade: #{item[:quantidade]} | Catergoria: #{item[:produto_categoria]} | Código: #{item[:codigo]}"
+    if File.exist?("estoque.txt") && !File.zero?("estowque.txt")
+      File.open("estoque.txt", "r") do |arquivo|
+        arquivo.each_line do |linha|
+          puts linha
+        end
+      end
+    else
+      puts "Estoque vazio!"
+      puts "Adicionar produto?"
+      puts "1 - Sim | Enter - Não"
+      opcao = gets.chomp
+      if opcao == '1'
+        cadastrar_produto
+      else
+        puts "Saindo..."
+        return
+      end
     end
   end
 
@@ -89,71 +107,99 @@ class Produto
 
   def cadastrar_fornecedor
     puts "Cadastrar fornencedores"
-    print "Nome: "
-    nome_fornecedor = gets.chomp.capitalize
     print "Empresa: "
     nome_empresa = gets.chomp.capitalize
+    print "Vendedor: "
+    nome_vendedor = gets.chomp.capitalize
     print "Telefone: "
     telefone_empresa = gets.chomp
     print "E-mail: "
     email_empresa = gets.chomp.downcase
 
-    @fornencedores << { nome: nome_fornecedor, empresa: nome_empresa, telefone: telefone_empresa, email: email_empresa}
+
+    File.open("fornecedores.txt", "a") do |arquivo|
+      arquivo.puts "Empresa: #{nome_empresa} | Vendedor: #{nome_vendedor} | Telefone: #{telefone_empresa} | E-mail: #{email_empresa}"
+    end
+    puts "Fornecedor #{nome_empresa} cadastrado!"
   end
 
   def listar_fornecedores
-    puts "Lista de fornecedores"
-    @fornecedores.each_with_index do |item, indice|
-      puts "#{indice + 1}º item | Vendedor: #{item[:nome]} | Empresa: #{item[:empresa]} | Telefone: #{item[:telefone]} | E-mail: #{item[:email]}"
-    end
-  end
-
-  def remover_fornecedor
-    puts "Remover fornecedor"
-    if @fornecedores.empty?
-      puts "Nenhum fornecedor cadastrado"
+    if File.exist?("fornecedores.txt") && !File.zero?("fornecedores.txt")
+      File.open("fornecedores.txt", "r") do |arquivo|
+        arquivo.each_line do |linha|
+          puts linha
+        end
+      end
+    else
+      puts "Cadastro de fornecedores vazio!"
       puts "Cadastrar novo fornecedor?"
-      puts "1 - Sim | Enter - sair"
-      escolha = gets.chomp
-      if escolha == '1'
+      puts "1 - Sim | Enter - Sair"
+      opcao = gets.chomp
+      if opcao == '1'
         cadastrar_fornecedor
       else
         puts "Saindo..."
         return
       end
-    else
-      @fornecedores.each_with_index do |item, indice|
-        puts "#{indice + 1}º item | Vendedor: #{item[:nome]} | Empresa: #{item[:empresa]} | Telefone: #{item[:telefone]} | E-mail: #{item[:email]}"
+    end
+  end
+
+  def remover_fornecedor
+    puts "Remover fornecedor"
+
+    if File.exist?("fornecedores.txt") && !File.zero?("fornecedores.txt")
+      fornecedores = File.readlines("fornecedores.txt")
+
+      fornecedores.each_with_index do |fornecedor, indice|
+        puts "Fornecedor: #{indice + 1}: #{fornecedor}"
       end
+
       puts "Qual fornecedor remover?"
-      puts "Digite o número do índice"
+      puts "Digite o número | Enter - Sair"
       escolha = gets.chomp.to_i - 1
-      if escolha >= 0 && escolha < @fornecedores.size
+
+      if escolha >= 0 && escolha < fornecedores.size
         puts "Deseja mesmo remover?"
-        puts "1 - Sim | Enter - Sair"
+        puts "! - Sim | Enter - Sair"
         opcao_remover = gets.chomp
         if opcao_remover == '1'
-          @fornecedores.delete_at(escolha)
+          fornecedores.delete_at(escolha)
+
+          File.open("fornecedores.txt", "w") do |arquivo|
+            arquivo.puts(fornecedores)
+          end
+
           puts "Fornecedor removido!"
         else
           puts "Saindo..."
           return
         end
       else
-        puts "Escolha inválida!"
+        puts "Escolha inválida!"     
+      end
+    else
+      puts "Nenhum fornecedor cadastrado!"
+      puts "Cadastrar novo fornecedor?"
+      puts "1 -Sim | Enter - Sair"
+      opcao = gets.chomp
+      if opcao == '1'
+        cadastrar_fornecedor
+      else
+        puts "Saindo..."
+        return
       end
     end
   end
 
 end
 
-#Transformar as outras funções em leituras de arquivos
 
-#produtos = Produto.new
+
+produtos = Produto.new
 #produtos.lista_de_produtos
 #produtos.remover_produto
-#produtos.listar_produtos
+produtos.listar_produtos
 #produtos.lista_de_fornecedores
-#produtos.listar_fornecedores
+produtos.listar_fornecedores
 #produtos.remover_fornecedor
 #produtos.listar_fornecedores
