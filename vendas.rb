@@ -1,6 +1,5 @@
 require 'date'
 
-
 class Vendas
   def initialize(arquivo_estoque)
     @arquivo_estoque = arquivo_estoque
@@ -12,21 +11,21 @@ class Vendas
     while true
       puts "Digite o código do produto ou 0 para sair"
       print "Código do produto: "
-      @codigo_produto = gets.chomp.to_i
+      codigo_produto = gets.chomp.to_i
 
-      break if @codigo_produto == 0
+      break if codigo_produto == 0
 
       print "Quantidade: "
       quantidade = gets.chomp.to_i
 
-      produto = buscar_produto(@codigo_produto)
+      produto = buscar_produto(codigo_produto)
 
       if produto
         if produto[:quantidade] >= quantidade
           preco_total = produto[:preco] * quantidade
           @total_preco += preco_total
           nova_quantidade = produto[:quantidade] - quantidade
-          @produtos << { codigo: @codigo_produto, nome: produto[:nome], preco: produto[:preco], quantidade: quantidade, nova_quantidade: nova_quantidade }
+          @produtos << { codigo: codigo_produto, nome: produto[:nome], preco: produto[:preco], quantidade: quantidade, nova_quantidade: nova_quantidade }
         else
           puts "Quantidade solicitada não disponível. Disponível: #{produto[:quantidade]}"
         end
@@ -42,58 +41,11 @@ class Vendas
     puts "Histórico de vendas"
     if File.exist?("vendas.txt") && !File.zero?("vendas.txt")
       File.open("vendas.txt", "r") do |arquivo|
-        arquivo.each_line do |linha|
-          puts linha
-        end
+        arquivo.each_line { |linha| puts linha }
+        puts "------------------------------------------------------------------"
       end
     else
       puts "Relatório de vendas inexistente!"
-    end
-  end
-
-  def preparar_relatorio(nome_arquivo)
-    dados = []
-    File.open(nome_arquivo, "r") do |arquivo|
-      arquivo.each_line do |linha|
-        dados << linha.chomp
-      end
-    end
-    dados
-  end
-
-
-  def gerar_relatorio(dados)
-    relatorio = []
-    hoje = Date.today
-    puts "1 - 1 dia"
-    puts "2 - 7 dias"
-    puts "3 - 30 dias"
-    puts "4 - 3 meses"
-    puts "5 - 6 meses"
-    puts "0 - Sair"
-    opcao = gets.chomp.to_i
-
-    if opcao == '1'
-      @x_dias_antes = hoje - 1
-      @dados.each do |linha|
-        data_str, evento = linha.split(';')
-        data_evento = date.parse(data_str)
-
-        if data_evento >= 1 && data_evento <= hoje
-          relatorio << "#{data_evento}: #{evento}"
-        end
-      end
-
-      relatorio
-    end
-
-  end
-
-  def exibir_relatorio
-    relatorio = gerar_relatorio
-    puts "Relatório de #{x_dias_antes} dias"
-    relatorio.each do |item|
-      puts item
     end
   end
 
@@ -107,7 +59,6 @@ class Vendas
           dados = linha.split('|')
           nome = dados[0].split(':')[1].strip
           preco = dados[1].split(':')[1].strip.to_f
-          categoria = dados[2].split(':')[1].strip
           quantidade = dados[3].split(':')[1].strip.to_i
           produto = { nome: nome, preco: preco, quantidade: quantidade }
           break
@@ -118,11 +69,7 @@ class Vendas
   end
 
   def atualizar_estoque(codigo_produto, nova_quantidade)
-    linhas = []
-    File.open(@arquivo_estoque, "r") do |file|
-      linhas = file.readlines
-    end
-
+    linhas = File.readlines(@arquivo_estoque)
     File.open(@arquivo_estoque, "w") do |file|
       linhas.each do |linha|
         if linha =~ /Código: #{codigo_produto}/
@@ -145,8 +92,6 @@ class Vendas
       pagamento
     else
       puts "Compras não realizadas"
-      puts "Finalizando..."
-      return
     end
   end
 
@@ -183,16 +128,9 @@ class Vendas
       puts "Pagamento cancelado. Ainda falta R$: #{'%.2f' % (@total_preco - valor_recebido)}"
     end
   end
-
-
 end
 
 # Exemplo de uso:
-#vendas = Vendas.new("estoque.txt")
+vendas = Vendas.new("estoque.txt")
 #vendas.iniciar
-#vendas.historico_vendas
-#vendas.ver_historico
-
-nome_arquivo = 'vendas.txt'
-vendas = Vendas.new(nome_arquivo)
-vendas.exibir_relatorio
+vendas.historico_vendas
