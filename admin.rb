@@ -8,6 +8,10 @@ class Administrador
   def ver_relatorios
     @vendas.historico_vendas
   end
+
+  def atualizar_estoque
+    
+  end
 end
 
 admin = Administrador.new
