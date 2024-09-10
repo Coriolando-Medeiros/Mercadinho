@@ -23,15 +23,14 @@ class Login
         puts "login bem sucedido!"
         puts "Bem-vindo #{@usuario.capitalize}"
         if @usuario == "administrador"
-          #puts "Em implementação"
           require_relative 'admin'
           admin = Administrador.new
-          admin.ver_relatorios
+          admin.menu_admin_estoque
 
         else
           require_relative 'vendas'
-          vendas = Vendas.new
-          vendas.iniciar
+          vendas = Vendas.new("estoque.txt")
+          vendas.iniciar         
         end
       else
         puts "Usuário e/ou senha inválidos!"
