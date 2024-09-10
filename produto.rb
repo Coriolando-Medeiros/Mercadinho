@@ -1,11 +1,12 @@
 class Produto
-  def initialize
+  def initialize(arquivo = nil)
+    @arquivo = arquivo
     @produtos = []
     @fornencedores = []
   end
 
 
-#Tenho que fazer o cadastro mudar de array para arquivo ainda
+
   def cadastrar_produto
     codigo = 10000
     if File.exist?("estoque.txt")
@@ -83,7 +84,7 @@ class Produto
 
   def listar_produtos
     puts "Lista de produtos"
-    if File.exist?("estoque.txt") && !File.zero?("estowque.txt")
+    if File.exist?("estoque.txt") && !File.zero?("estoque.txt")
       File.open("estoque.txt", "r") do |arquivo|
         arquivo.each_line do |linha|
           puts linha
@@ -193,13 +194,3 @@ class Produto
 
 end
 
-
-
-produtos = Produto.new
-#produtos.lista_de_produtos
-#produtos.remover_produto
-produtos.listar_produtos
-#produtos.lista_de_fornecedores
-produtos.listar_fornecedores
-#produtos.remover_fornecedor
-#produtos.listar_fornecedores
