@@ -1,7 +1,7 @@
 require 'date'
 
 class Vendas
-  def initialize(arquivo_estoque)
+  def initialize(arquivo_estoque = nil)
     @arquivo_estoque = arquivo_estoque
     @produtos = []
     @total_preco = 0.0
@@ -39,10 +39,12 @@ class Vendas
 
   def historico_vendas
     puts "Histórico de vendas"
+    puts ""
     if File.exist?("vendas.txt") && !File.zero?("vendas.txt")
       File.open("vendas.txt", "r") do |arquivo|
-        arquivo.each_line { |linha| puts linha }
-        puts "------------------------------------------------------------------"
+        arquivo.each_line do|linha|
+          puts linha 
+        end
       end
     else
       puts "Relatório de vendas inexistente!"
@@ -131,6 +133,6 @@ class Vendas
 end
 
 # Exemplo de uso:
-vendas = Vendas.new("estoque.txt")
+#vendas = Vendas.new("estoque.txt")
 #vendas.iniciar
-vendas.historico_vendas
+#vendas.historico_vendas
