@@ -30,7 +30,26 @@ class Login
         else
           require_relative 'vendas'
           vendas = Vendas.new("estoque.txt")
-          vendas.iniciar         
+          loop do
+            puts "Menu"
+            puts ""
+            puts "1 - Vender"
+            puts "2 - Histórico de vendas"
+            puts "0 - Sair"
+            print "Opção: "
+            opcao = gets.chomp
+
+            if opcao == '1'
+              vendas.iniciar
+            elsif opcao == '2'
+              vendas.historico_vendas
+            elsif opcao == '0'
+              puts "Saindo..."
+              return
+            else
+              puts "Opção inválida! Tente novamente"
+            end
+          end
         end
       else
         puts "Usuário e/ou senha inválidos!"
