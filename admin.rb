@@ -57,6 +57,34 @@ class Administrador
     end
   end
 
+  def menu_produto
+    loop do
+      puts "Menu Produto"
+      puts ""
+      puts "1 - Cadastrar produto"
+      puts "2 - Listar produtos"
+      puts "3 - Remover produto"
+      puts "0 - Sair"
+      print "Opção: "
+      opcao = gets.chomp
+
+      require_relative 'produto'
+      @produto = Produto.new('estoque.txt')
+      if opcao == '1'
+        @produto.cadastrar_produto
+      elsif opcao == '2'
+        @produto.listar_produtos
+      elsif opcao == '3'
+        @produto.remover_produto
+      elsif opcao == '0'
+        puts "Saindo..."
+        return
+      else
+        puts "Opção inválida! Tente novamente"
+      end
+    end
+  end
+
   
 end
 
