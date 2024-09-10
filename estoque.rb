@@ -1,12 +1,14 @@
 require_relative 'produto'
 
 class Estoque
-  def initialize
+
+  def initialize(arquivo = nil)
+    @arquivo = arquivo
     @entregas = []
     
   end
 
-  def adicionar
+  def adicionar_recebimento
     puts "Adicionar produto"
     print "Fornecedor: "
     fornencedor = gets.chomp.capitalize
@@ -24,11 +26,21 @@ class Estoque
       produto.cadastrar_produto
       contador += 1
     end
-    @entregas << {fornencedor: fornencedor, entregador: entregador, vendedor: vendedor, data: data}
+
     File.open("entregas.txt", "a") do |arquivo|
       arquivo.puts "Fornecedor: #{fornencedor} | Entregador: #{entregador} | Vendedor: #{vendedor} | Data: #{data} | Hora: #{hora}"
     end
     puts "Atualizado estoque #{data} #{hora}"
+  end
+
+  def ver_historico_recebimentos
+    if File.exist?("entregas.txt") && !File.zero?("entregas.txt")
+      File.open("entregas.txt", "r") do |arquivo|
+        arquivo.each_line do |linha|
+          puts linha
+        end
+      end
+    end
   end
 
   def ver_estoque
@@ -44,5 +56,6 @@ class Estoque
 end
 
 estoque = Estoque.new
-#estoque.adicionar
-estoque.ver_estoque
+estoque.adicionar_recebimento
+#estoque.ver_estoque
+#estoque.ver_historico_recebimentos
