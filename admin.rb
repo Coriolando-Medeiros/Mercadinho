@@ -29,6 +29,34 @@ class Administrador
     end
   end
 
+  def menu_fornecedor
+    loop do
+      puts "Menu Fornecedor"
+      puts ""
+      puts "1 - Cadastrar fornecedor"
+      puts "2 - Listar fornecedores"
+      puts "3 - Remover fornecedor"
+      puts "0 - Sair"
+      print "Opção: "
+      opcao = gets.chomp
+
+      require_relative 'produto'
+      @produto = Produto.new('estoque.txt')
+      if opcao == '1'
+        @produto.cadastrar_fornecedor
+      elsif opcao == '2'
+        @produto.listar_fornecedores
+      elsif opcao == '3'
+        @produto.remover_fornecedor
+      elsif opcao == '0'
+        puts "Saindo..."
+        return
+      else
+        puts "Opção inválida! Tente novamente"
+      end
+    end
+  end
+
   
 end
 
