@@ -85,7 +85,33 @@ class Administrador
     end
   end
 
-  
+  def menu_estoque
+    loop do
+      puts "Menu Estoque"
+      puts ""
+      puts "1 - Cadastrar recebimento"
+      puts "2 - Histórico de recebimentos"
+      puts "3 - Ver estoque"
+      puts "0 - Sair"
+      print "Opção: "
+      opcao = gets.chomp
+
+      require_relative 'estoque'
+      @estoque = Estoque.new('entregas.txt')
+      if opcao == '1'
+        @estoque.adicionar_recebimento
+      elsif opcao == '2'
+        @estoque.ver_historico_recebimentos
+      elsif opcao == '3'
+        @estoque.ver_estoque
+      elsif opcao == '0'
+        puts "Saindo..."
+        return
+      else
+        puts "Opção inválida! Tente novamente"
+      end
+    end
+  end
 end
 
 
