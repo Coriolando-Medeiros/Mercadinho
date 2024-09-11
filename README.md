@@ -1,128 +1,91 @@
-# Sistema de Gerenciamento de Mercadinho
+## Sistema de Gerenciamento de Comércio de Pequeno Porte
 
-	Este é um sistema robusto de gerenciamento de mercadinho, desenvolvido em Ruby, que oferece controle total sobre o estoque, cadastro de produtos, registro de vendas, gestão de clientes, entre outras funcionalidades. A aplicação visa otimizar as operações de pequenos mercados, fornecendo um sistema fácil de usar e eficiente.
-	
-## Funcionalidades
-### 1. Cadastro de Produtos
+Este projeto foi desenvolvido com foco no aprendizado, utilizando arquivos de texto (.txt) para armazenar e gerenciar dados relacionados a produtos, clientes, e vendas. Embora em sistemas mais complexos o uso de um banco de dados seja a escolha mais adequada, a opção por arquivos de texto aqui foi intencional para fins didáticos, permitindo explorar conceitos fundamentais de manipulação de arquivos em Ruby.
 
-   - **Produtos**: Permite o cadastro de produtos com informações como nome, preço, categoria (alimentos, bebidas, limpeza, etc.), quantidade em estoque e código do produto.
-   - **Fornecedores**: Armazena informações sobre fornecedores para reposição de mercadorias, ajudando no controle de compras.
+Embora o uso de arquivos de texto atenda bem ao propósito educacional deste projeto, reconheço que, para aplicações mais complexas, essa abordagem apresenta limitações em termos de escalabilidade, eficiência e segurança. Em um ambiente de produção, a escolha ideal seria a utilização de um banco de dados, capaz de lidar com volumes maiores de informações de maneira mais eficiente e segura.
 
-#### 2. Gestão de Estoque
+A escolha de simplificar o armazenamento dos dados foi feita com o intuito de fortalecer o entendimento dos conceitos básicos, mantendo a clareza e a acessibilidade do código para iniciantes, mas sempre com a visão de que soluções mais robustas, como a adoção de bancos de dados, são essenciais em sistemas profissionais.
 
-   - **Entrada de Produtos**: Registra a entrada de novos produtos no estoque, aumentando as quantidades existentes.
-   - **Saída de Produtos**: Atualiza automaticamente o estoque quando os produtos são vendidos.
-   - **Alerta de Baixo Estoque**: Gera notificações quando a quantidade de um produto está abaixo do limite configurado, evitando a falta de mercadorias.
+### Estrutura dos Arquivos
 
-### 3. Vendas
+ - app.rb: Arquivo principal que inicializa o sistema e chama o menu de login.
+ - login.rb: Responsável pela autenticação dos usuários.
+ - admin.rb: Fornece o menu para o administrador, com opções de gerenciamento de estoque e fornecedores.
+ - estoque.rb: Gerencia o estoque e o histórico de recebimentos.
+ - produto.rb: Responsável pelo cadastro, listagem e remoção de produtos e fornecedores.
+ - vendas.rb: Gerencia o processo de vendas e o histórico de vendas realizadas.
 
-   - **Registro de Vendas**: Cada venda é registrada detalhadamente, incluindo os produtos vendidos, suas quantidades, o valor total da compra e o tipo de pagamento.
-   - **Pagamento**: Suporte a múltiplos tipos de pagamento, como dinheiro, cartão e Pix.
-   - **Histórico de Vendas**: Oferece um histórico completo das vendas, permitindo o acompanhamento diário, semanal ou mensal.
+### Funcionalidades
+**1. Autenticação de Usuários**
 
-### 4. Gestão de Clientes
+O sistema possui uma autenticação baseada em arquivo (login.txt), onde o usuário e a senha são verificados. Dependendo do tipo de usuário, o menu exibido será diferente:
 
-   - **Cadastro de Clientes**: Permite cadastrar informações como nome, telefone, email, etc., útil para promoções ou programas de fidelidade.
-   - **Histórico de Compras**: Relaciona cada cliente com suas compras anteriores, permitindo um melhor atendimento e promoções personalizadas.
+ - Administrador: Acesso a funcionalidades de controle de estoque, fornecedores e histórico de vendas.
+ - Usuário Comum: Acesso ao menu de vendas.
 
-### 5. Relatórios
+**2. Menu de Administrador**
 
-   - **Vendas Diárias/Semanais/Mensais**: Gera relatórios financeiros detalhados para análise de desempenho em diferentes períodos.
-   - **Produtos Mais Vendidos**: Identifica os produtos com maior demanda, auxiliando no planejamento de compras.
-   - **Relatório de Estoque**: Permite verificar o nível de estoque em qualquer momento, facilitando o controle e a reposição de mercadorias.
+O administrador possui as seguintes opções:
 
-### 6. Autenticação e Permissões
+ - **Menu Fornecedor**:
+  - Cadastrar fornecedor
+  - Listar fornecedores
+  - Remover fornecedore
 
-   - **Login de Funcionários**: Sistema de autenticação que diferencia o nível de acesso para administradores, caixas e estoquistas.
-   - **Controle de Acesso**: Funcionalidades restritas a diferentes perfis, garantindo maior segurança no sistema.
+ - **Menu Produto**:
+  - Cadastrar produto
+  - Listar produtos
+  - Remover produto
 
-### 7. Gestão Financeira
+ - **Menu Estoque**:
+  - Cadastrar recebimento de produtos
+  - Ver histórico de recebimentos
+  - Visualizar o estoque.
 
-   - **Contas a Pagar e Receber**: Registra despesas com fornecedores e controla os recebimentos das vendas.
-   - **Fechamento de Caixa**: Realiza o fechamento diário do caixa, registrando o saldo e gerando relatórios de movimentação financeira.
+### 3. Menu de Vendas
 
-## Como Usar
+O usuário comum (não administrador) pode:
 
-**1 Instalação:**
-  - Clone o repositório
+ - **Realizar vendas**: Selecionar produtos e registrar a venda.
+ - **Histórico de vendas**: Ver todas as vendas realizadas.
+
+### 4. Gerenciamento de Produtos
+
+O sistema permite que o administrador cadastre, liste e remova produtos e fornecedores, mantendo o estoque atualizado e garantindo que o inventário esteja sempre correto.
+### 5. Gerenciamento de Estoque
+
+Além do cadastro de novos produtos, o sistema também gerencia recebimentos de produtos, permitindo que o estoque seja atualizado à medida que novas entregas chegam ao comércio. Um histórico de recebimentos é mantido para consulta.
+### 6. Histórico de Vendas e Estoque
+
+O sistema mantém um registro completo de todas as vendas realizadas e dos recebimentos de produtos. Esses registros podem ser visualizados a qualquer momento.
+
+## Como Executar
+
+  1.  Certifique-se de que todos os arquivos estão na mesma pasta.
+
+  2.  No terminal, execute o arquivo app.rb:
 
 ```
     bash
 
-    git clone https://github.com/usuario/sistema-gerenciamento-mercadinho.git
+    ruby app.rb
 ```
 
-  - Navegue até o diretório:
-```
-    bash
+  3. O sistema exibirá um menu de login, onde o usuário deverá inserir suas credenciais.
 
-    cd sistema-gerenciamento-mercadinho
-```
+  4. Após a autenticação, o sistema exibirá as opções de acordo com o tipo de usuário.
 
-   - Certifique-se de ter o Ruby instalado.
-   
-**2 Execução**:
+## Estrutura de Arquivos
 
-   - Inicie o sistema executando o arquivo principal:
-
-```
-   bash
-
-   ruby mercadinho.rb
-```
-  - O sistema apresentará um menu com opções para cadastro, vendas, relatórios, entre outros.
-
-## Exemplo de Uso
-### Cadastro de Produtos
-```
-   bash
-
-   Nome: Arroz
-   Preço: 5.99
-   Categoria: Alimentos
-   Quantidade: 50
-   Código: 12345
-```
-### Registro de Vendas
-```
-   bash
-
-    Produto: Arroz
-    Quantidade: 2
-    Preço Total: 11.98
-    Tipo de Pagamento: Cartão
-```
-### Relatório de Vendas
-```
-    bash
-
-    Relatório de Vendas - Semana 36
-    - Total de Vendas: R$ 1200,00
-    - Produtos Mais Vendidos: Arroz, Feijão
-```
-### Estrutura do Projeto
-
-  - **app.rb**: Arquivo principal que contém o fluxo da aplicação.
-  - **produtos.txt**: Arquivo para armazenar os dados dos produtos.
-  - **vendas.txt**: Armazena o histórico de vendas.
-  - **clientes.txt**: Dados dos clientes cadastrados para promoções e fidelidade.
+ - **login.txt**: Contém o nome de usuário e senha no formato usuario:senha.
+ - **estoque.txt**: Registra os produtos cadastrados no estoque.
+ - **fornecedores.txt**: Armazena as informações dos fornecedores cadastrados.
+ - **entregas.txt**: Contém o histórico de recebimentos de produtos.
 
 ### Tecnologias Utilizadas
 
-  - **Linguagem de programação**: Ruby
-  - **Sistema de controle de versão**: Git
-  - **Execução**: Linha de comando (CLI)
+ - Linguagem de Programação: Ruby
 
-## Contribuições
+### Licença
 
-Contribuições são bem-vindas! Para contribuir, siga os passos abaixo:
-
-   - Faça um fork do repositório.
-   - Crie uma branch para sua funcionalidade (git checkout -b feature/MinhaFuncionalidade).
-   - Commit suas alterações (git commit -m 'Adiciona nova funcionalidade').
-   - Envie para a branch original (git push origin feature/MinhaFuncionalidade).
-   - Abra um Pull Request.
-
-## Licença
-
-   Este projeto está licenciado sob a Licença MIT - consulte o arquivo LICENSE para mais detalhes.
+Este projeto é licenciado sob a licença MIT.
